@@ -1,13 +1,19 @@
 import React from "react";
-import { useLocation } from "react-router-dom";  // For accessing state passed via navigation
+import { useLocation, useNavigate } from "react-router-dom";  
 
 const CartPage = () => {
-  const location = useLocation();  // Use the hook to get the location state
-  const { cart } = location.state || { cart: [] };  // Default to empty array if no state
+  const location = useLocation();  
+  const navigate = useNavigate();  
+  const { cart } = location.state || { cart: [] }; 
 
   const handleRemoveFromCart = (productId) => {
-    // Remove from cart functionality here
+   
     console.log(`Remove product with id: ${productId}`);
+  };
+
+  const handleProceedToPayment = () => {
+   
+    navigate("/paypal");
   };
 
   return (
@@ -38,6 +44,18 @@ const CartPage = () => {
           <p>Your cart is empty!</p>
         )}
       </div>
+
+     
+      {cart.length > 0 && (
+        <div className="text-center my-4">
+          <button
+            className="btn btn-primary"
+            onClick={handleProceedToPayment}
+          >
+            Proceed to Payment
+          </button>
+        </div>
+      )}
     </div>
   );
 };

@@ -1,6 +1,9 @@
 import React, { useState } from 'react';
-import { registerUser } from '../services/api';
 import { useNavigate } from 'react-router-dom';
+import { auth, firestore } from './Firebase';
+import { createUserWithEmailAndPassword } from 'firebase/auth';
+import { doc, setDoc } from 'firebase/firestore';
+import './Register.css'
 
 const Register = () => {
   const [email, setEmail] = useState('');
@@ -11,15 +14,32 @@ const Register = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await registerUser(email, password);
-      navigate('/login'); 
+   
+      if (!email || !password) {
+        throw new Error('Please fill in both email and password');
+      }
+
+      
+      const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+
+      
+      const user = userCredential.user;
+      await setDoc(doc(firestore, "users", user.uid), {
+        email: user.email,
+        createdAt: new Date(),
+      });
+
+   
+      navigate('/login');
     } catch (err) {
-      setError(err.error || 'Registration failed');
+    
+      console.error("Registration Error:", err);
+      setError(err.message || 'Registration failed');
     }
   };
 
   return (
-    <div className="container">
+    <div className="register-container">
       <h2>Register</h2>
       {error && <div className="alert alert-danger">{error}</div>}
       <form onSubmit={handleSubmit}>
@@ -27,7 +47,7 @@ const Register = () => {
           <label>Email</label>
           <input
             type="email"
-            className="form-control"
+            className="form-controll"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
           />
@@ -36,7 +56,7 @@ const Register = () => {
           <label>Password</label>
           <input
             type="password"
-            className="form-control"
+            className="form-controll"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
           />
