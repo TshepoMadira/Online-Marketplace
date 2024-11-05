@@ -1,9 +1,8 @@
-
-
 import React, { useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { setCart, removeFromCart } from '../redux/cartSlice';
+import './CartPage.css';
 
 const CartPage = () => {
   const location = useLocation();  
@@ -11,7 +10,6 @@ const CartPage = () => {
   const dispatch = useDispatch();
   const { cart, totalPrice } = useSelector(state => state.cart);  
 
- 
   useEffect(() => {
     if (location.state && location.state.cart) {
       const { cart: cartData, totalPrice } = location.state;
@@ -23,13 +21,13 @@ const CartPage = () => {
     dispatch(removeFromCart(productId));  
   };
 
-  const handleProceedToPayment = () => {
-    console.log("Proceeding to payment with total price:", totalPrice);
-    navigate('/paypal', { state: { totalPrice } });
+  const handleProceedToPayment = (product) => {
+    console.log("Proceeding to payment for product:", product);
+    navigate('/paypal', { state: { totalPrice: product.price } }); 
   };
 
   return (
-    <div className="container">
+    <div className="cart-container">
       <h2 className="my-4 text-center">Your Cart</h2>
       <div className="product-grid">
         {cart.length > 0 ? (
@@ -49,6 +47,12 @@ const CartPage = () => {
                 >
                   Remove from Cart
                 </button>
+                <button
+                  className="proceed-to-payment"
+                  onClick={() => handleProceedToPayment(product)}
+                >
+                  Proceed to Payment
+                </button>
               </div>
             </div>
           ))
@@ -57,17 +61,7 @@ const CartPage = () => {
         )}
       </div>
 
-      {cart.length > 0 && (
-        <div className="text-center my-4">
-          <p>Total Price: ${totalPrice}</p>
-          <button
-            className="btn btn-primary"
-            onClick={handleProceedToPayment}
-          >
-            Proceed to Payment
-          </button>
-        </div>
-      )}
+   
     </div>
   );
 };

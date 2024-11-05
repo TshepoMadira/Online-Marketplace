@@ -1,5 +1,6 @@
 import React from "react";
 import { useLocation } from "react-router-dom";  
+import './Favorites.css'
 
 const FavoritesPage = () => {
   const location = useLocation();  
@@ -13,9 +14,9 @@ const FavoritesPage = () => {
   };
 
   return (
-    <div className="container">
+    <div className="favorite-container">
       <h2 className="my-4 text-center">Your Favorites</h2>
-      <div className="product-grid">
+      <div className="productt-grid">
         {favoriteProducts.length > 0 ? (
           favoriteProducts.map((product) => (
             <div key={product.id} className="product-card">
@@ -28,7 +29,7 @@ const FavoritesPage = () => {
                 <h5 className="card-title">{product.name}</h5>
                 <p className="card-text text-muted">${product.price}</p>
                 <button
-                  className="btn btn-danger"
+                  className="remove-button"
                   onClick={() => handleRemoveFromFavorites(product.id)}
                 >
                   Remove from Favorites

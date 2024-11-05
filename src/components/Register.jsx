@@ -41,13 +41,13 @@ const Register = () => {
   return (
     <div className="register-container">
       <h2>Register</h2>
-      {error && <div className="alert alert-danger">{error}</div>}
+      {error && <div className="alertt alert-danger">{error}</div>}
       <form onSubmit={handleSubmit}>
         <div className="mb-3">
           <label>Email</label>
           <input
             type="email"
-            className="form-controll"
+            className="email-register"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
           />
@@ -56,12 +56,12 @@ const Register = () => {
           <label>Password</label>
           <input
             type="password"
-            className="form-controll"
+            className="password-register"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
           />
         </div>
-        <button type="submit" className="btn btn-primary">
+        <button type="submit" className="register-btn">
           Register
         </button>
       </form>
