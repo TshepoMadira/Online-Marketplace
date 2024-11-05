@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { addProduct, updateProduct } from '../services/api';
+import './Productform.css'
 
 const ProductForm = ({ productId }) => {
   const [productData, setProductData] = useState({
@@ -45,7 +46,7 @@ const ProductForm = ({ productId }) => {
   };
 
   return (
-    <div className="container">
+    <div className="productform-container">
       <h2>{productId ? 'Edit Product' : 'Add Product'}</h2>
       <form onSubmit={handleSubmit}>
         

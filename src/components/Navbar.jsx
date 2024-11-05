@@ -2,17 +2,15 @@ import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import './Navbar.css';
 
-const NavBar = ({ onSearch }) => {
+const NavBar = ({ onSearch }) => {  
   const [isLoggedIn, setIsLoggedIn] = useState(false);  
   const [searchQuery, setSearchQuery] = useState('');
   const navigate = useNavigate();  
 
   const handleLoginLogoutClick = () => {
     if (isLoggedIn) {
-     
       navigate('/profile'); 
     } else {
-
       navigate('/login');
     }
   };
@@ -22,10 +20,15 @@ const NavBar = ({ onSearch }) => {
     onSearch(e.target.value); 
   };
 
+  const handleAdminClick = () => {
+    navigate('/productform');  
+  };
+
   return (
     <nav className="navbar">
       <div className="navbar-container">
         <Link to="/" className="navbar-brand">Tim.Co</Link>
+        
         <div className="search-container">
           <input
             type="text"
@@ -38,6 +41,7 @@ const NavBar = ({ onSearch }) => {
             <i className="fa fa-search"></i>
           </button>
         </div>
+
         <div className="user-container">
           <button className="login-btn" onClick={handleLoginLogoutClick}>
             {isLoggedIn ? (
@@ -45,6 +49,10 @@ const NavBar = ({ onSearch }) => {
             ) : (
               <span>Login/Register</span>  
             )}
+          </button>
+          
+          <button className="admin-btn" onClick={handleAdminClick}>
+            Admin
           </button>
         </div>
       </div>

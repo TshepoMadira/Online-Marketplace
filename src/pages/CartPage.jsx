@@ -1,30 +1,40 @@
-import React from "react";
-import { useLocation, useNavigate } from "react-router-dom";  
+import React, { useEffect } from 'react';
+import { useNavigate, useLocation } from 'react-router-dom';
+import { useSelector, useDispatch } from 'react-redux';
+import { setCart, removeFromCart } from '../redux/cartSlice';
+import './CartPage.css';
 
 const CartPage = () => {
   const location = useLocation();  
-  const navigate = useNavigate();  
-  const { cart } = location.state || { cart: [] }; 
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const { cart, totalPrice } = useSelector(state => state.cart);  
+
+  useEffect(() => {
+    if (location.state && location.state.cart) {
+      const { cart: cartData, totalPrice } = location.state;
+      dispatch(setCart({ cart: cartData, totalPrice }));
+    }
+  }, [dispatch, location.state]);
 
   const handleRemoveFromCart = (productId) => {
-   
-    console.log(`Remove product with id: ${productId}`);
+    dispatch(removeFromCart(productId));  
   };
 
-  const handleProceedToPayment = () => {
-   
-    navigate("/paypal");
+  const handleProceedToPayment = (product) => {
+    console.log("Proceeding to payment for product:", product);
+    navigate('/paypal', { state: { totalPrice: product.price } }); 
   };
 
   return (
-    <div className="container">
+    <div className="cart-container">
       <h2 className="my-4 text-center">Your Cart</h2>
       <div className="product-grid">
         {cart.length > 0 ? (
           cart.map((product) => (
             <div key={product.id} className="product-card">
               <img
-                src={product.image || "default-image-url.jpg"}
+                src={product.image || 'default-image-url.jpg'}
                 alt={product.name}
                 className="product-image"
               />
@@ -37,6 +47,12 @@ const CartPage = () => {
                 >
                   Remove from Cart
                 </button>
+                <button
+                  className="proceed-to-payment"
+                  onClick={() => handleProceedToPayment(product)}
+                >
+                  Proceed to Payment
+                </button>
               </div>
             </div>
           ))
@@ -45,17 +61,7 @@ const CartPage = () => {
         )}
       </div>
 
-     
-      {cart.length > 0 && (
-        <div className="text-center my-4">
-          <button
-            className="btn btn-primary"
-            onClick={handleProceedToPayment}
-          >
-            Proceed to Payment
-          </button>
-        </div>
-      )}
+   
     </div>
   );
 };

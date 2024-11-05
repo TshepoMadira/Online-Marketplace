@@ -17,7 +17,7 @@ const Login = () => {
   };
 
   return (
-    <div className="container">
+    <div className="loginn-container">
       <h2>Login</h2>
       {error && <div className="alert alert-danger">{error}</div>}
       <form onSubmit={handleSubmit}>
@@ -25,7 +25,7 @@ const Login = () => {
           <label>Email</label>
           <input
             type="email"
-            className="form-control"
+            className="email.login"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
           />
@@ -34,12 +34,12 @@ const Login = () => {
           <label>Password</label>
           <input
             type="password"
-            className="form-control"
+            className="password-login"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
           />
         </div>
-        <button type="submit" className="btn btn-primary">
+        <button type="submit" className="login-button">
           Login
         </button>
       </form>
@@ -48,7 +48,7 @@ const Login = () => {
       <div className="mt-3">
         <p>
           Don't have an account?{' '}
-          <a href="/register" className="btn btn-link">
+          <a href="/register" className="register-link">
             Register here
           </a>
         </p>

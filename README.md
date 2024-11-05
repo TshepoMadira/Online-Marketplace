@@ -1,70 +1,134 @@
-# Getting Started with Create React App
+## E-Commerce Product Management System
+This is an E-commerce Product Management system built with React, Redux, and Axios. The application provides the functionality for managing products, adding them to a cart, favoriting them, and proceeding to payment. The backend APIs are built in Express.js, providing the necessary routes for interacting with products, user authentication, and cart management.
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+### Features
+#### Product Management:
 
-## Available Scripts
+- Add, update, and delete products.
+- Admin functionality for managing product details (e.g., name, price, description, size, color, category).
 
-In the project directory, you can run:
+U### ser Authentication:
 
-### `npm start`
+- Register and login functionality for user authentication.
+- JWT authentication via Bearer tokens for protected routes.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+#### Cart and Favorites:
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+- Add and remove products to/from the cart.
+- Toggle products as favorites.
+- View and manage cart and favorite products in dedicated pages.
 
-### `npm test`
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+##### Responsive UI:
 
-### `npm run build`
+- Modern, responsive design for product list, cart, and favorites pages.
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+### Tech Stack
+- Frontend:
+- React
+- Redux (for state management)
+- Axios (for API calls)
+- React Router (for routing)
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+Frontend
 
-### `npm run eject`
+#### Authentication:
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+- POST /api/products/register - Register a new user
+- POST /api/products/login - Login with existing credentials
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+Returns: JWT token for further authentication
+Products:
+GET /api/products - Fetch all products
+POST /api/products/add - Add a new product (Requires JWT token)
+PUT /api/products/update/:id - Update an existing product (Requires JWT token)
+DELETE /api/products/delete/:id - Delete a product (Requires JWT token)
+Cart Management:
+POST /api/cart/add - Add product to cart
+DELETE /api/cart/remove/:id - Remove product from cart
+Favorites Management:
+POST /api/favorites/add - Add product to favorites
+DELETE /api/favorites/remove/:id - Remove product from favorites
+Components
+1. ProductForm
+Used for adding and updating products.
+Contains fields like name, price, description, size, color, and category.
+Uses useEffect to pre-populate data when updating an existing product.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+2. ProductList
+Displays a list of products.
+Provides options to add products to the cart or toggle them as favorites.
+Supports search functionality to filter products by name.
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+3. CartPage
+Displays products in the cart.
+Allows users to remove items or proceed to payment.
+Total price of the cart is dynamically updated as items are added/removed.
 
-## Learn More
+4. FavoritesPage
+Displays a list of favorite products.
+Allows users to remove items from their favorites.
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+5. Cart Slice (Redux)
+A Redux slice to manage cart state, including adding and removing items and calculating the total price.
+Redux Actions and Reducers
+addToCart: Adds a product to the cart.
+removeFromCart: Removes a product from the cart.
+setCart: Sets the entire cart state.
+setTotalPrice: Sets the total price for the cart.
+Styling
+The project uses CSS to style the various components, with the following main pages:
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+ProductForm.css: Styles for the form to add/update products.
+ProductList.css: Styles for displaying the product list.
+CartPage.css: Styles for the cart page.
+Favorites.css: Styles for the favorites page.
 
-### Code Splitting
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
 
-### Analyzing the Bundle Size
+### Frontend (React) structure:
+bash
+Copy code
+/frontend
+  /src
+    /components
+      ProductForm.js
+      ProductList.js
+      CartPage.js
+      FavoritesPage.js
+    /redux
+      cartSlice.js
+      userSlice.js
+    /services
+      axios.js
+    App.js
+    index.js
+    /styles
+      ProductForm.css
+      ProductList.css
+      CartPage.css
+      FavoritesPage.css
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+## Installation
+- Clone the repository:
+git clone   https://github.com/TshepoMadira/online-marketplace.git
 
-### Making a Progressive Web App
+- Navigate to the project directory:
+cd online-marketplace
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+- Navigate to this branch git checkout dev
 
-### Advanced Configuration
+- Install dependencies:
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+npm install
 
-### Deployment
+- To run the project use:
+npm start
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
 
-### `npm run build` fails to minify
+# Figma link
+https://www.figma.com/design/GdY7kioY3P3sdSDNl7HCk3/Untitled?node-id=0-1&node-type=canvas&t=MgUYdHY3tRMk4ZSu-0
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+# Backend Link
+https://online-marketplace2.onrender.com
