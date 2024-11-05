@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { getProducts } from "../services/api";
-import { Link } from "react-router-dom"; 
+import { Link } from "react-router-dom";
 import "./Productlist.css";
 
-const ProductList = () => {
+const ProductList = ({ searchQuery }) => {
   const [products, setProducts] = useState([]);
-  const [cart, setCart] = useState([]); 
-  const [favorites, setFavorites] = useState([]); 
+  const [cart, setCart] = useState([]);
+  const [favorites, setFavorites] = useState([]);
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -35,54 +35,74 @@ const ProductList = () => {
     }
   };
 
+  const filteredProducts = products.filter((product) => {
+    const query = searchQuery ? searchQuery.toLowerCase() : "";
+    return String(product.name || "")
+      .toLowerCase()
+      .includes(query);
+  });
+
   return (
     <div className="container">
       <h2 className="my-4 text-center">Product List</h2>
-
-      
       <div className="cart-favorites-info">
         <Link to="/cart" state={{ cart }}>
-          <strong>Cart: </strong>{cart.length} items
+          <strong>Cart: </strong>
+          {cart.length} items
         </Link>
         <Link to="/favorites" state={{ favorites, products }}>
-          <strong>Favorites: </strong>{favorites.length} items
+          <strong>Favorites: </strong>
+          {favorites.length} items
         </Link>
       </div>
 
       <div className="product-grid">
-        {products.map((product) => (
-          <div key={product.id} className="product-card">
-            <img
-              src={product.image || "default-image-url.jpg"}
-              alt={product.name}
-              className="product-image"
-            />
-            <div className="card-body">
-              <h5 className="card-title">{product.name}</h5>
-              <p className="card-text text-muted">${product.price}</p>
-              <p className="card-text">{product.description}</p>
-              <p className="card-text"><strong>Size:</strong> {product.size}</p>
-              <p className="card-text"><strong>Color:</strong> {product.color}</p>
-              <p className="card-text"><strong>Category:</strong> {product.category}</p>
+        {filteredProducts.length === 0 ? (
+          <p>No products found</p>
+        ) : (
+          filteredProducts.map((product) => (
+            <div key={product.id} className="product-card">
+              <img
+                src={product.image || "default-image-url.jpg"}
+                alt={product.name}
+                className="product-image"
+              />
+              <div className="card-body">
+                <h5 className="card-title">{product.name}</h5>
+                <p className="card-text text-muted">${product.price}</p>
+                <p className="card-text">{product.description}</p>
+                <p className="card-text">
+                  <strong>Size:</strong> {product.size}
+                </p>
+                <p className="card-text">
+                  <strong>Color:</strong> {product.color}
+                </p>
+                <p className="card-text">
+                  <strong>Category:</strong> {product.category}
+                </p>
 
-             
-              <div className="icons-container">
-                <button
-                  className="icon-btn"
-                  onClick={() => handleAddToCart(product)}
-                >
-                  <i className="fas fa-cart-plus"></i> 
-                </button>
-                <button
-                  className="icon-btn"
-                  onClick={() => handleToggleFavorite(product)}
-                >
-                  <i className={`fas fa-heart ${favorites.includes(product.id) ? 'favorite' : ''}`}></i> 
-                </button>
+                <div className="icons-container">
+                  <button
+                    className="icon-btn"
+                    onClick={() => handleAddToCart(product)}
+                  >
+                    <i className="fas fa-cart-plus"></i>
+                  </button>
+                  <button
+                    className="icon-btn"
+                    onClick={() => handleToggleFavorite(product)}
+                  >
+                    <i
+                      className={`fas fa-heart ${
+                        favorites.includes(product.id) ? "favorite" : ""
+                      }`}
+                    ></i>
+                  </button>
+                </div>
               </div>
             </div>
-          </div>
-        ))}
+          ))
+        )}
       </div>
     </div>
   );

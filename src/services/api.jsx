@@ -19,8 +19,8 @@ export const registerUser = async (email, password) => {
 export const loginUser = async (email, password) => {
   try {
     const response = await axios.post('http://localhost:5000/api/products/login', { email, password });
-    localStorage.setItem('authToken', response.data.token); 
-    return response.data;
+    localStorage.setItem('authToken', response.data.token);  
+    return response.data;  
   } catch (error) {
     throw error.response ? error.response.data : error;
   }
