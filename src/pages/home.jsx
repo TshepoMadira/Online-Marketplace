@@ -1,9 +1,9 @@
 import React from 'react';
-import ProductList from '../components/ProductList';
+import ProductList from '../components/Productlist';
 
 const Home = () => (
   <div>
-    <h1>Welcome to the Online Marketplace</h1>
+    <h1>Welcome to the TIM.Co</h1>
     <ProductList />
   </div>
 );

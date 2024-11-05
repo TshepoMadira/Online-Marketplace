@@ -1,27 +1,43 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { addProduct, updateProduct } from '../services/api';
 
-const productForm = ({ productId }) => {
+const ProductForm = ({ productId }) => {
   const [productData, setProductData] = useState({
     name: '',
     price: '',
-    description: ''
+    description: '',
+    size: '',  
+    color: '',
+    category: '',  
   });
 
-  
+  const categories = [
+    'Boys Clothes', 
+    'Women Clothes', 
+    'Kids Clothes', 
+    'Accessories', 
+    'Stationeries', 
+    'Technology'
+  ];
+
+  useEffect(() => {
+    if (productId) {
+     
+    }
+  }, [productId]);
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setProductData({ ...productData, [name]: value });
   };
 
- 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
       if (productId) {
         await updateProduct(productId, productData);  
       } else {
-        await addProduct(productData);  t
+        await addProduct(productData);  
       }
     } catch (error) {
       console.error('Error saving product:', error);
@@ -32,6 +48,7 @@ const productForm = ({ productId }) => {
     <div className="container">
       <h2>{productId ? 'Edit Product' : 'Add Product'}</h2>
       <form onSubmit={handleSubmit}>
+        
         <div className="mb-3">
           <label>Name</label>
           <input
@@ -42,6 +59,7 @@ const productForm = ({ productId }) => {
             onChange={handleChange}
           />
         </div>
+
         <div className="mb-3">
           <label>Price</label>
           <input
@@ -52,6 +70,7 @@ const productForm = ({ productId }) => {
             onChange={handleChange}
           />
         </div>
+
         <div className="mb-3">
           <label>Description</label>
           <textarea
@@ -61,6 +80,55 @@ const productForm = ({ productId }) => {
             onChange={handleChange}
           ></textarea>
         </div>
+
+        <div className="mb-3">
+          <label>Size</label>
+          <input
+            type="text"
+            className="form-control"
+            name="size"
+            value={productData.size}
+            onChange={handleChange}
+            placeholder="Enter product size (e.g., S, M, L, XL)"
+          />
+        </div>
+
+        <div className="mb-3">
+          <label>Color</label>
+          <select
+            className="form-control"
+            name="color"
+            value={productData.color}
+            onChange={handleChange}
+          >
+            <option value="">Select Color</option>
+            <option value="Red">Red</option>
+            <option value="Blue">Blue</option>
+            <option value="Green">Green</option>
+            <option value="Black">Black</option>
+            <option value="White">White</option>
+            <option value="Yellow">Yellow</option>
+          </select>
+        </div>
+
+       
+        <div className="mb-3">
+          <label>Category</label>
+          <select
+            className="form-control"
+            name="category"
+            value={productData.category}
+            onChange={handleChange}
+          >
+            <option value="">Select Category</option>
+            {categories.map((category) => (
+              <option key={category} value={category}>
+                {category}
+              </option>
+            ))}
+          </select>
+        </div>
+
         <button type="submit" className="btn btn-primary">
           {productId ? 'Update Product' : 'Add Product'}
         </button>
@@ -69,4 +137,4 @@ const productForm = ({ productId }) => {
   );
 };
 
-export default productForm;
+export default ProductForm;
