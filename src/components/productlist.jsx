@@ -46,15 +46,16 @@ const ProductList = ({ searchQuery }) => {
     <div className="container">
       <h2 className="my-4 text-center">Product List</h2>
       <div className="cart-favorites-info">
-        <Link to="/cart" state={{ cart }}>
-          <strong>Cart: </strong>
-          {cart.length} items
-        </Link>
-        <Link to="/favorites" state={{ favorites, products }}>
-          <strong>Favorites: </strong>
-          {favorites.length} items
-        </Link>
+      <Link to="/cart" state={{ cart }} className="icon-link">
+    <i className="fas fa-shopping-cart"></i>
+    {cart.length > 0 && <span className="icon-count">{cart.length}</span>}
+  </Link>
+  <Link to="/favorites" state={{ favorites, products }} className="icon-link">
+    <i className="fas fa-heart"></i>
+    {favorites.length > 0 && <span className="icon-count">{favorites.length}</span>}
+  </Link>
       </div>
+      
 
       <div className="product-grid">
         {filteredProducts.length === 0 ? (
